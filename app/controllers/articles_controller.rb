@@ -24,7 +24,7 @@ class ArticlesController < ApplicationController
     debugger
     # render plain: params[:article].inspect # Use this line to view params
     @article = Article.new(article_params)
-    @article.user = User.first
+    @article.user = current_user
 
     if @article.save
       flash[:success] = 'Article was successfully created.'
@@ -57,7 +57,7 @@ class ArticlesController < ApplicationController
     def article_params
       params.require(:article).permit(:title, :description)
     end
-  
+
     def require_same_user
       if current_user != @article.user
         flash[:danger] = 'You can only edit or delete your own article'
